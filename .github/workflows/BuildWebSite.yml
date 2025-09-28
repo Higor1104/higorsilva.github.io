@@ -1,0 +1,40 @@
+name: Build and Deploy Vue.js App
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Adjust the Node version as needed
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build the Vue.js application
+      - name: Build the Vue.js app
+        run: npm run build
+
+      # Publish the build (Example: deploying to GitHub Pages)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.DEPLOY_KEY }} # Optional: if using SSH key for deploy
+          folder: .
+          publish_branch: gh-pages # Change to your desired branch for deployment
+          target_branch: master # Or any other target branch
+          user_name: 'github-actions'  # Can be customized
+          user_email: 'github-actions@users.noreply.github.com' # Customizable
+
