@@ -9,32 +9,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Set up Node.js environment
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Checkout repo
+        uses: actions/checkout@v4
         with:
-          node-version: '14' # Adjust the Node version as needed
+          fetch-depth: 0  # Needed to push
 
-      # Install dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Use the version your project requires
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # Build the Vue.js application
-      - name: Build the Vue.js app
+      - name: Build Vue app
         run: npm run build
 
-      # Publish the build (Example: deploying to GitHub Pages)
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.DEPLOY_KEY }} # Optional: if using SSH key for deploy
-          folder: .
-          publish_branch: gh-pages # Change to your desired branch for deployment
-          target_branch: master # Or any other target branch
-          user_name: 'github-actions'  # Can be customized
-          user_email: 'github-actions@users.noreply.github.com' # Customizable
+      - name: Commit built files in root (excluding ignored ones)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          # Add all untracked or changed files (excluding those in .gitignore like node_modules)
+          git add -u
+          git add .
+
+          # Check for any actual changes
+          if ! git diff --cached --quiet; then
+            git commit -m "Build: update root files [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
