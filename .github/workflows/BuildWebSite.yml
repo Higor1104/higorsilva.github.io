@@ -28,6 +28,8 @@ jobs:
         run: node --experimental-global-webcrypto ./node_modules/vite/bin/vite.js build
 
       - name: Commit built files in root (excluding ignored ones)
+        env:
+          GIT_AUTH_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -38,7 +40,7 @@ jobs:
 
           # Check for any actual changes
           if ! git diff --cached --quiet; then
-            git commit -m "Build: update root files [skip ci]"
+            git push https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
             git push
           else
             echo "No changes to commit."
