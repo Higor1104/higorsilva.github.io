@@ -41,10 +41,7 @@ jobs:
 
           git status
 
-          # Check for any actual changes
-          if ! git diff --cached --quiet; then
-            REPO_URL="https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }}.git"
-            git push "$REPO_URL" HEAD:${{ github.ref_name }}
-          else
-            echo "No changes to commit."
-          fi
+          REPO_URL="https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }}.git"
+          git push "$REPO_URL" HEAD:${{ github.ref_name }}
+
+          git status
