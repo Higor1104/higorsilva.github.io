@@ -36,12 +36,12 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Add all untracked or changed files (excluding those in .gitignore like node_modules)
-          git add -u
           git add .
-          git commit -m "Project built..."
-          git status
+
           # Check for any actual changes
           if ! git diff --cached --quiet; then
+            git commit -m "Project built..."
+            git status
             git push https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
             git push
           else
