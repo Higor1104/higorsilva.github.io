@@ -39,6 +39,8 @@ jobs:
           git add -u
           git add .
 
+          git status
+
           # Check for any actual changes
           if ! git diff --cached --quiet; then
             REPO_URL="https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }}.git"
