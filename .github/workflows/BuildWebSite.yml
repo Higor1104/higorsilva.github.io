@@ -43,7 +43,6 @@ jobs:
             git commit -m "Project built..."
             git status
             git push https://x-access-token:${GIT_AUTH_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
-            git push
           else
             echo "No changes to commit."
           fi
