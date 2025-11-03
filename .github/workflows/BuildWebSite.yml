@@ -35,9 +35,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          $DIRECTORY="/docs"
-          if [ -d "$DIRECTORY" ]; then
-            rm -rf $DIRECTORY
+          if [ -d "/docs" ]; then
+            rm -rf /docs
           fi
           mkdir /docs
           copy /dist/* /docs
