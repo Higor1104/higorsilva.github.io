@@ -35,10 +35,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if [ -d "/docs" ]; then
-            rm -rf /docs
-          fi
-          mkdir /docs
+          rm -rf /docs/*
           copy /dist/* /docs
 
           # Add all untracked or changed files (excluding those in .gitignore like node_modules)
