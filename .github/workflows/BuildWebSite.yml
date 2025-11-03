@@ -35,9 +35,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          $DIRECTORY = "/docs"
+          if [ -d "$DIRECTORY" ]; then
+            rm -rf $DIRECTORY
+          fi
+          mkdir /docs
+          copy /dist/* /docs
+
           # Add all untracked or changed files (excluding those in .gitignore like node_modules)
           git add .
-
+          
           # Check for any actual changes
           if ! git diff --cached --quiet; then
             git commit -m "Project built..."
