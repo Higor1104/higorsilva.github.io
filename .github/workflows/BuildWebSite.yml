@@ -36,8 +36,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           rm -rf /docs/*
-          cp dist/* docs
-
+          cp -a dist/. /docs/
+          
           # Add all untracked or changed files (excluding those in .gitignore like node_modules)
           git add .
           
